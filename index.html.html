@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ini untuk najelnya tedi</title>
+    <style>
+        /* Font Lokal */
+        @font-face {
+            font-family: 'MagneticLocal';
+            src: url('font/Magnetic Free.ttf') format('truetype'),
+                 url('font/Magnetic Free.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        /* Sweety Love untuk tombol (letakkan file font di folder 'font/') */
+        @font-face {
+            font-family: 'Sweety Love';
+            src: url('font/Sweety Love.woff2') format('woff2'),
+                 url('font/Sweety Love.woff') format('woff'),
+                 url('font/Sweety Love.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        /* Cuppy Honney Demo untuk tombol (letakkan file font di folder 'font/') */
+        @font-face {
+            font-family: 'Cuppy Honney Demo';
+            src: url('font/Cuppy Honney Demo.woff2') format('woff2'),
+                 url('font/Cuppy Honney Demo.woff') format('woff'),
+                 url('font/Cuppy Honney Demo.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Tampilan Dasar */
+        html {
+            min-height: 100%;
+        }
+        body {
+            font-family: 'MagneticLocal', 'Poppins', Arial, sans-serif;
+            background-image: url('Foto/colorful-aurora-3840x2160-23632.jpg'); /* Ganti ke gambar wallpaper yang Anda inginkan */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        #halaman-awal,
+        #halaman-kilas-balik,
+        #halaman-penutup {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+            margin-bottom: 0.6rem;
+        }
+
+        p {
+            font-size: clamp(1rem, 1.1vw, 1.1rem);
+            line-height: 1.7;
+            margin: 0 0 1rem;
+        }
+
+        /* Desain Tombol */
+        button {
+            font-family: 'Cuppy Honney Demo', 'MagneticLocal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 25px;
+            font-size: clamp(0.95rem, 1.2vw, 1rem);
+            cursor: pointer;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+        button:hover { background-color: #e60000; }
+        
+        #btn-no { background-color: #ccc; color: #333; }
+        #btn-no:hover { background-color: #aaa; }
+
+        /* Menyembunyikan Halaman Selanjutnya */
+        #halaman-kilas-balik, #halaman-penutup { display: none; }
+
+        /* Desain Foto Kilas Balik */
+        .slider-container {
+            width: 100%;
+            max-width: 720px;
+            height: auto;
+            margin: 20px auto;
+            position: relative;
+        }
+        .foto-kenangan {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            animation: fadeIn 6s; /* Efek transisi halus */
+            object-fit: contain;
+        }
+        .controls {
+            min-height: 64px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        button {
+            min-width: 140px;
+            flex: 1 1 140px;
+            max-width: 220px;
+        }
+        .foto-kenangan.aktif { display: block; }
+
+        /* Animasi Transisi Foto */
+        @keyframes fadeIn {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        /* Desain Kotak Surat/Kata-kata */
+        .kotak-surat {
+            background: rgba(0, 0, 0, 0.65);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            line-height: 1.6;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HALAMAN AWAL (AUDIO PROMPT) -->
+    <div id="halaman-awal">
+        <h2>Hai Najellll</h2>
+        <p>Sebelum mulai, mau sambil dengerin lagu spesial kita nggak niehhhh?</p>
+        <button id="btn-iya">Iya, Putar Lagunya </button>
+        <button id="btn-tidak">Nggak Usah, Lanjut Aja </button>
+    </div>
+
+    <!-- ELEMEN AUDIO (Sembunyi) -->
+    <!-- GANTI 'lagu-kita.mp3' dengan nama file lagumu yang sebenarnya -->
+    <audio id="musik-latar" src="musik/DAVID BAYU - DERITAKU OFFICIAL MUSIC VIDEO.mp3" loop></audio>
+
+    <!-- 2. HALAMAN KILAS BALIK (SLIDER FOTO) -->
+    <div id="halaman-kilas-balik">
+        <h2>Foto kenangan Kita (banyaknua foto kamu sihh)</h2>
+        <p>Mulai dari awal ketemu, PDKT, sampai sekarang.</p>
+        
+        <div class="slider-container">
+            <!-- GANTI 'foto1.jpg' DENGAN NAMA FILE FOTOMU -->
+            <img src="Foto/foto 1.jpeg" class="foto-kenangan aktif" alt="Kenangan 1">
+            <img src="Foto/foto 2.jpeg" class="foto-kenangan" alt="Kenangan 2">
+            <img src="Foto/foto 3.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/foto 4.jpeg" class="foto-kenangan" alt="Kenangan 4">
+            <img src="Foto/foto 5.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/foto 6.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/foto 7.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/foto 8.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/foto 9.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 1.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 2.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 3.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 4 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 5 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 6 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 7 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 8 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 9 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 10 .jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 11.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            <img src="Foto/sekian 12.jpeg" class="foto-kenangan" alt="Kenangan 3">
+            
+        </div>
+
+        <div class="controls">
+            <button id="btn-percepat">Cepetin Fotonya</button>
+            <button id="btn-selesai">Udahhhh selesai</button>
+        </div>
+    </div>
+
+    <!-- 3. HALAMAN PENUTUP (KATA-KATA) -->
+    <div id="halaman-penutup">
+        <div class="kotak-surat">
+            <h2>Buatt kamuu...</h2>
+            <!-- TULIS PESAN MANISMU DI SINI -->
+            <p>
+                Makasih ya udah mau nemenin aku sampai sekarang. Maaf juga kalau aku banyak salahnya karena dasarnya aku masih belajar jadi yang terbaik. Foto tadi yang udah ditampilin kenangan-kenangan yang bakal jadi saksi bahwa kita pernah selucu dan sedekat itu, jadi bukti juga untuk anak-anak kita nanti (insyaallah).
+                kalo ngga kasih tau aja kalo mantan mamah kamu bisa bikin kaya gini demi mamah...
+
+            </p>
+            <p>
+               dilan pernah bilang gini "Cinta itu indah, tidak selamanya tentang kepemilikan, tapi tentang bagaimana kita saling membahagiakan." jadi aku berharap kita bisa terus saling membahagiakan, terus tumbuh bareng, dan terus jadi pasangan yang solid. Aku sayang kamu Najellll, semoga kita bisa terus bikin kenangan-kenangan indah bareng sampai tua nanti. Aamiin.
+            </p>
+        </div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT -->
+    <script>
+        // Mengambil elemen-elemen dari HTML
+        const halAwal = document.getElementById('halaman-awal');
+        const halKilasBalik = document.getElementById('halaman-kilas-balik');
+        const halPenutup = document.getElementById('halaman-penutup');
+        const musik = document.getElementById('musik-latar');
+        const fotoFoto = document.querySelectorAll('.foto-kenangan');
+        const sliderContainer = document.querySelector('.slider-container');
+        
+        let intervalWaktu = 3000; // Default: foto ganti tiap 3 detik
+        let sliderInterval;
+        let indexFoto = 0;
+
+        // Fungsi Tombol Halaman Awal
+        document.getElementById('btn-iya').onclick = function() {
+            musik.play();
+            mulaiKilasBalik();
+        };
+
+        document.getElementById('btn-tidak').onclick = function() {
+            mulaiKilasBalik();
+        };
+
+        function mulaiKilasBalik() {
+            halAwal.style.display = 'none'; // Sembunyikan hal awal
+            halKilasBalik.style.display = 'block'; // Tampilkan kilas balik
+            adjustSliderSize().then(() => {
+                jalankanSlider(); // Mulai foto bergerak setelah ukuran disesuaikan
+            });
+        }
+
+        // Fungsi Slider Foto Berjalan Otomatis
+        function jalankanSlider() {
+            sliderInterval = setInterval(gantiFotoSelanjutnya, intervalWaktu);
+        }
+
+        // Sesuaikan ukuran slider berdasarkan foto terbesar
+        function adjustSliderSize() {
+            const imgs = Array.from(document.querySelectorAll('.slider-container .foto-kenangan'));
+            return Promise.all(imgs.map(i => new Promise(resolve => {
+                // gunakan objek gambar yang sudah ada; tunggu jika belum selesai load
+                if (i.complete && i.naturalWidth) return resolve(i);
+                i.onload = () => resolve(i);
+                i.onerror = () => resolve(i);
+            }))).then(list => {
+                if (!list.length) return;
+                // temukan gambar dengan naturalWidth terbesar
+                let maxW = 0, maxH = 0;
+                list.forEach(i => {
+                    const nw = i.naturalWidth || 0;
+                    const nh = i.naturalHeight || 0;
+                    if (nw > maxW) { maxW = nw; maxH = nh; }
+                });
+                if (maxW === 0) return;
+                const padding = 40; // margin keseluruhan
+                const allowedW = Math.min(maxW, window.innerWidth - padding, 720);
+                const scale = allowedW / maxW;
+                const finalH = Math.round(maxH * scale);
+                sliderContainer.style.width = allowedW + 'px';
+                sliderContainer.style.height = finalH + 'px';
+                sliderContainer.style.margin = '20px auto';
+                // pastikan setiap gambar mengisi kontainer secara proporsional
+                list.forEach(i => {
+                    i.style.width = '100%';
+                    i.style.height = '100%';
+                    i.style.objectFit = 'contain';
+                });
+            });
+        }
+
+        // Debounce helper
+        function debounce(fn, wait) {
+            let t;
+            return function() { clearTimeout(t); t = setTimeout(() => fn.apply(this, arguments), wait); };
+        }
+
+        window.addEventListener('resize', debounce(() => {
+            // hanya sesuaikan ulang jika slider sedang terlihat
+            if (halKilasBalik.style.display !== 'none') adjustSliderSize();
+        }, 150));
+
+        function gantiFotoSelanjutnya() {
+            fotoFoto[indexFoto].classList.remove('aktif'); // Sembunyikan foto saat ini
+            indexFoto = (indexFoto + 1) % fotoFoto.length; // Lanjut ke foto berikutnya, kembali ke awal kalau habis
+            fotoFoto[indexFoto].classList.add('aktif'); // Tampilkan foto baru
+        }
+
+        // Fungsi Tombol Percepat: aktif saat ditekan, batal saat dilepas
+        (function() {
+            const btnPercepat = document.getElementById('btn-percepat');
+            let originalInterval = intervalWaktu;
+            let isPressed = false;
+
+            function startFast() {
+                if (isPressed) return;
+                isPressed = true;
+                clearInterval(sliderInterval);
+                originalInterval = intervalWaktu;
+                intervalWaktu = 800; // kecepatan cepat sementara
+                jalankanSlider();
+                btnPercepat.innerText = "Percepat Aktif ⏩";
+                btnPercepat.style.backgroundColor = "#ff9900";
+            }
+
+            function stopFast() {
+                if (!isPressed) return;
+                isPressed = false;
+                clearInterval(sliderInterval);
+                intervalWaktu = originalInterval; // kembalikan kecepatan semula
+                jalankanSlider();
+                btnPercepat.innerText = "Percepat Animasi ⏩";
+                btnPercepat.style.backgroundColor = "#ff4d4d";
+            }
+
+            // Mouse events
+            btnPercepat.addEventListener('mousedown', startFast);
+            btnPercepat.addEventListener('mouseup', stopFast);
+            btnPercepat.addEventListener('mouseleave', stopFast);
+
+            // Touch events for mobile
+            btnPercepat.addEventListener('touchstart', function(e){ e.preventDefault(); startFast(); });
+            btnPercepat.addEventListener('touchend', stopFast);
+            btnPercepat.addEventListener('touchcancel', stopFast);
+        })();
+
+        // Fungsi Tombol Selesai
+        document.getElementById('btn-selesai').onclick = function() {
+            clearInterval(sliderInterval); // Hentikan foto bergerak
+            halKilasBalik.style.display = 'none'; // Sembunyikan halaman foto
+            halPenutup.style.display = 'block'; // Tampilkan kata-kata penutup
+        };
+    </script>
+</body>
+</html>
